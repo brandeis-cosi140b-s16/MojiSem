@@ -1,0 +1,86 @@
+%!TEX encoding = UTF-8 Unicode
+%preamble
+\documentclass{article}
+\usepackage{titlesec}
+\usepackage[top=1in, left=1in]{geometry}
+\usepackage{fancyhdr}
+%fancy header
+    \pagestyle{fancy}
+    \lhead{\textsc{Cosi} 140B}
+    \chead{\textbf{MojiSem: Semantic and Discourse functions of Emoji}}
+    \rhead{\today}
+    \lfoot{}
+    \cfoot{}
+    \rfoot{}
+
+%template fillers
+\newcommand{\groupmember}[1]{#1}
+\newcommand{\role}[1]{#1}
+%signature lines
+\newcommand{\sigline}[2]{\vspace{2em} #1 \hfill \line(1,0){#2}}
+
+%document
+\begin{document}
+
+\section{Group Members} % (fold)
+\label{par:group_members}
+This document represents an agreement between the following parties:
+\begin{itemize}
+    \item \groupmember{Orion Montoya}
+    \item \groupmember{Noa Naaman}
+    \item \groupmember{Hannah Provenza}
+\end{itemize}
+% paragraph group_members (end)
+
+\section{Goals} % (fold)
+\label{par:expectations}
+Our expectations for the course project are as follows:
+\begin{enumerate}
+    \item Evaluate reliability of existing Twitter POS taggers on current emoji.
+    \item Collect corpus of emoji-bearing tweets; ideally containing as many emoji characters as possible.
+    \item Potentially: limit corpus to texts that can be identified as English.
+    \item Specify useful judgments with some hope of attaining IAA.
+    \item Annotate non-taggable/wrongly-tagged emoji characters by semantic or discourse function.
+    \item Produce summary measures of the diversity of emoji usages: polysemy, typical functions.
+    \item Predict the function or meaning of a sequence of emoji characters in unseen text.
+\end{enumerate}
+% paragraph expectations (end)
+
+\section{Skills} % (fold)
+\label{sec:skills}
+
+The relevant skills that each member believes will aid in their contributions are as follows:
+
+\begin{description}
+    \item[\groupmember{Orion}:] Documentation, code management, corpus development and analysis
+    \item[\groupmember{Noa}:] Annotation spec, semantic and pragmatic theories
+    \item[\groupmember{Hannah}:] Corpus development, coding lead
+\end{description}
+% section skills (end)
+
+\section{Roles} % (fold)
+\label{sec:roles}
+
+Roles within the group will be designated as follows:
+
+\begin{description}
+    \item[\role{Orion}:] Documentation, code management, corpus development and analysis
+    \item[\role{Noa}:] Annotation spec, semantic and pragmatic theories
+    \item[\role{Hannah}:] Corpus development, coding lead
+\end{description}
+% section roles (end)
+
+\section{Agreement} % (fold)
+\label{par:agreement}
+The undersigned hereby agree, to the best of their respective abilities and skills
+as outlined in Section \ref{sec:skills}, to contribute to the project according to
+their roles as designated in Section \ref{sec:roles}.
+
+\textit{I solemnly swear that I am up to no good.}
+%\footnote{\emph{Disclaimer}: This is a preliminary group contract. As our understanding of the project becomes more clear we reserve the option to revise and resubmit a modified contract to reflect that understanding.}
+% paragraph agreement (end)
+\vspace{2em}\\
+\sigline{\textbf{\groupmember{Orion Montoya}}}{300}\\
+\sigline{\textbf{\groupmember{Noa Naaman}}}{300}\\
+\sigline{\textbf{\groupmember{Hannah Provenza}}}{300}\\
+\end{document}
