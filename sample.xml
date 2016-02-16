@@ -1,0 +1,9 @@
+<!-- not yet well-formed XML, just a scratch workbook -->
+<corpus>
+  <tweet id="698362178827583489"><mm_inform coref="coref_1">😂</mm_inform> <coref id="coref_1" type="img">https://t.co/J8Fl9kjNMn</coref></tweet>
+  <tweet id="698507085726744576"> RT @critizedbieber: fav if you're active for <coref id="coref_1">free follows</coref> <mm_inform coref="coref_1" gloss="make it rain">🌧</mm_inform></tweet>
+  <tweet id="698507083994386432"> RT @Hsamuelsson1994: Good luck to my little bro @asamuelsson5 in the @youtholympics! I know you'll kill it.. Love you king! <mm_inform type="attitude" gloss="you'll win a trophy" coref="coref_1>>🏆</mm_inform> https://t.co/…</tweet>
+  <tweet id="698507556323532801"> Feeling like shit for no absolute reason <mm_inform type="attitude">🌟</mm_inform></tweet>
+  <tweet id="698505262479642628"> RT @yogitalove7: 💋 #HappyKissDay 💋 Guys </tweet>
+</corpus>
+
