@@ -15,10 +15,10 @@ for x in range(127744, 128591):
     output.append(chr(x).encode("unicode_escape"))
 
 for x in range(128640, 128709):
-    output.append(chr(x))
+    output.append(chr(x).encode("unicode_escape"))
 
 for x in range(9728, 10175):
-    output.append(chr(x))
+    output.append(chr(x).encode("unicode_escape"))
 
 
-print(output[0:401])
+print(output)
