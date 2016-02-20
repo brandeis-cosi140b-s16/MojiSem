@@ -14,7 +14,11 @@ def process(t):
         try:
             js = json.loads(line, encoding='utf-8')
             if 'text' in js:
-                if has_emoji.search(js['text']):
+                if 'http' in js['text'] or 'www.' in js['text']:
+                    continue
+                elif (js['lang'] != 'en'):
+                    continue
+                elif has_emoji.search(js['text']):
                     stripped_bodies[strip_varying(js['text'])] = js
         except:
             continue
@@ -30,7 +34,7 @@ def strip_varying(text):
 
 
 #twitter = open("/Volumes/Zeitmaschin/Emoji Project/fetched_tweets2.txt", 'r', encoding='utf-8')
-twitter = open("/Users/orion/Google Drive/2016Spring/NLA4ML/Shared Data/newtweets.txt", 'r', encoding='utf-8')
+twitter = open("shorttweets.txt", 'r', encoding='utf-8')
 process(twitter)
 twitter.close()
 
