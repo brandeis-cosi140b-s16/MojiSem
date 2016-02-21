@@ -1,0 +1,18 @@
+<!ENTITY name "MojiSem">
+
+<!-- -->
+<!ELEMENT mm ( #PCDATA ) >
+<!ATTLIST mm type ( attitude | topic | gesture | other ) #REQUIRED >
+<!ATTLIST mm interpretation CDATA #REQUIRED >
+
+
+<!ELEMENT content ( #PCDATA )>
+<!ATTLIST content type ( noun | verb | adj | adv | other ) #REQUIRED >
+<!ATTLIST content replacement CDATA >
+
+
+<!ELEMENT func ( #PCDATA )>
+<!ATTLIST func type ( prep | aux | conj | dt | punc | other ) #REQUIRED >
+<!ATTLIST func replacement CDATA >
+
+
