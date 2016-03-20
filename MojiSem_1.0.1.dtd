@@ -1,0 +1,29 @@
+<!ENTITY name "MojiSem_1.0.1">
+
+<!-- -->
+<!ELEMENT mm ( #PCDATA ) >
+<!ATTLIST mm type ( attitude | topic | gesture | other ) #REQUIRED >
+<!ATTLIST mm interpretation CDATA #REQUIRED >
+
+
+<!ELEMENT content ( #PCDATA )>
+<!ATTLIST content type ( noun | verb | adj | adv | other ) #REQUIRED >
+<!ATTLIST content replacement CDATA >
+
+
+<!ELEMENT func ( #PCDATA )>
+<!ATTLIST func type ( prep | aux | conj | dt | punc | other ) #REQUIRED >
+<!ATTLIST func replacement CDATA >
+
+<!ELEMENT coref EMPTY >
+<!ELEMENT coref type ( topic | other ) #REQUIRED >
+
+<!ELEMENT multipart EMPTY >
+<!ATTLIST multipart part0 IDREF #REQUIRED >
+<!ATTLIST multipart part1 IDREF #REQUIRED >
+<!ATTLIST multipart part2 IDREF >
+<!ATTLIST multipart part3 IDREF >
+<!ATTLIST multipart part4 IDREF >
+<!ATTLIST multipart part5 IDREF >
+<!ATTLIST multipart part6 IDREF >
+<!ATTLIST multipart part6 IDREF >
