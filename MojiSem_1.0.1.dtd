@@ -10,15 +10,19 @@
 <!ATTLIST content type ( noun | verb | adj | adv | other ) #REQUIRED >
 <!ATTLIST content replacement CDATA >
 
+<!ELEMENT nonscope ( #PCDATA )>
+<!ATTLIST nonscope id ID prefix="ns" #REQUIRED>
 
 <!ELEMENT func ( #PCDATA )>
 <!ATTLIST func type ( prep | aux | conj | dt | punc | other ) #REQUIRED >
 <!ATTLIST func replacement CDATA >
 
 <!ELEMENT coref EMPTY >
-<!ELEMENT coref type ( topic | other ) #REQUIRED >
+<!ATTLIST coref id ID prefix="cf" #REQUIRED>
+<!ATTLIST coref type ( topic | other ) #REQUIRED >
 
 <!ELEMENT multipart EMPTY >
+<!ATTLIST multipart id ID prefix="mp" #REQUIRED>
 <!ATTLIST multipart part0 IDREF #REQUIRED >
 <!ATTLIST multipart part1 IDREF #REQUIRED >
 <!ATTLIST multipart part2 IDREF >
@@ -26,4 +30,11 @@
 <!ATTLIST multipart part4 IDREF >
 <!ATTLIST multipart part5 IDREF >
 <!ATTLIST multipart part6 IDREF >
-<!ATTLIST multipart part6 IDREF >
+<!ATTLIST multipart part7 IDREF >
+<!ATTLIST multipart part8 IDREF >
+<!ATTLIST multipart part9 IDREF >
+<!ATTLIST multipart part10 IDREF >
+<!ATTLIST multipart part11 IDREF >
+<!ATTLIST multipart part12 IDREF >
+<!ATTLIST multipart part13 IDREF >
+<!ATTLIST multipart part14 IDREF >
