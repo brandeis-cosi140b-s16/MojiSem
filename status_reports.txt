@@ -1,0 +1,6 @@
+2016-03-25 Week 1 report:
+- We updated our guidelines for new elements and added examples (Noa)
+- Distributed an updated DTD to match the changes to the guidelines (Orion)
+- Assembled a new corpus with 100+ additional tweets with a wide range of emoji and usage types (Hannah)
+- Our partner group did not release a new corpus and updated guidelines as of Fridayl, so we haven’t completed a second round of annotations.
+
