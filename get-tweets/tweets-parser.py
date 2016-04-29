@@ -34,9 +34,10 @@ def strip_varying(text):
 
 
 #twitter = open("/Volumes/Zeitmaschin/Emoji Project/fetched_tweets2.txt", 'r', encoding='utf-8')
-twitter = open("shorttweets.txt", 'r', encoding='utf-8')
+twitter = open("shorttweets3-4.txt", 'r', encoding='utf-8')
 process(twitter)
 twitter.close()
+
 
 """
 698362173567868928

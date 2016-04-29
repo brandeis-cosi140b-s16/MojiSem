@@ -184,7 +184,7 @@ range7 = ['\u271b', '\u271c', '\u271d', '\u271e', '\u271f', '\u2720', '\u2721', 
 
 class StdOutListener(StreamListener):
     def on_data(self, data):
-        with open('shorttweets.txt','a') as tf:
+        with open('shorttweets3-4.txt','a') as tf:
             tf.write(data)
         return True
     def on_error(self, status):
@@ -198,5 +198,4 @@ if __name__ == '__main__':
 
     # Max 400 words can be tracked at once
 
-#    stream.filter(track=[u"\U0001f602", u"\U0001f601"])  works
-    stream.filter(track=range7)
+    stream.filter(track=range4)
