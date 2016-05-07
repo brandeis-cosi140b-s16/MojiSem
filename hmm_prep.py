@@ -145,6 +145,12 @@ except re.error:
         u'[\u2600-\u26FF\u2700-\u27BF])+',
         re.UNICODE)
 
+def beg_or_end(tweet, idx):
+    if idx == 0:
+        return 'BEGIN'
+    if idx == len(tweet) -1: #, len(tweet) - 2):
+        return 'END'
+    return 'MID'
 
 def position_in_tweet(tweet, idx):
     return idx / float(len(tweet))
@@ -177,7 +183,6 @@ def following_bipos(tags, idx):
 def preceded_by_determiner(tags, idx):
     return False if not idx > 0 else tags[idx-1] == 'DT'
 
-def preceding_punc(
 
 def punctuation_follows():
     pass
@@ -196,17 +201,21 @@ def enrich_observations(tweets):
             tok, lbl = tw[i]
             if lbl == 'func':
                 lbl = 'content'
-
+            pre = preceding_bipos(tags,i)
+            post = following_bipos(tags,i)
+            the_type = 'emo' if has_emoji.search(tok) else 'txt'
             features = ( tok,
                     tags[i],
                     preceded_by_determiner(tags, i),
-                    #preceding_bipos(tags,i), # worse
-                    #following_bipos(tags,i), # worse
+                    pre[1]+"|"+the_type,
+                    post[0]+"|"+the_type,
+                    #'\t'.join(preceding_bipos(tags,i)), # worse
+                    #'\t'.join(following_bipos(tags,i)), # worse
                     len(tok),
-                    'emo' if has_emoji.search(tok) else 'txt',
+                    the_type,
                     position_in_tweet(tw,i)
+                    #beg_or_end(tw,i)
                     )
-            
             thistweet.append((features, lbl))
         returnable.append(thistweet)
     return returnable

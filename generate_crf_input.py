@@ -23,7 +23,7 @@ for klass in ('train','test'):
             line = u'\t'.join([lbl,u'\t'.join(unicode(o) for o in obs)]) #.encode('utf-8')
             fh.write(line+'\n')
             #print(line)
-        fh.write("END\tEND\n")
+        fh.write("END\tEND\n\n")
     fh.close()
 
 
