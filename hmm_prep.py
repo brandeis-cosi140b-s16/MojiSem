@@ -125,14 +125,98 @@ def split_to_tweets(taggedText):
 
     return tagged_tweets
 
-has_emoji = re.compile(u'['
-    u'\U0001F300-\U0001F64F'
-    u'\U0001F680-\U0001F6FF'
-    u'\u2600-\u26FF\u2700-\u27BF]+',
-re.UNICODE)
+try:
+    # Wide UCS-4 build
+    has_emoji = re.compile(u'['
+        u'\U0001F300-\U0001F64F'
+        u'\U0001F680-\U0001F6FF'
+        u'\u2600-\u26FF\u2700-\u27BF]+',
+        re.UNICODE)
+except re.error:
+    # Narrow UCS-2 build
+    has_emoji = re.compile(u'('
+        u'\ud83c[\udf00-\udfff]|'
+        u'\ud83d[\udc00-\ude4f\ude80-\udeff]|'
+        u'[\u2600-\u26FF\u2700-\u27BF])+',
+        re.UNICODE)
+
+
+def position_in_tweet(tweet, idx):
+    return idx / float(len(tweet))
+
+def preceding_bipos(tags, idx):
+    bi = []
+    if idx > 1:
+        bi.append(tags[idx - 2])
+    else:
+        bi.append('START')
+    if idx > 0:
+        bi.append(tags[idx - 1])
+    else:
+        bi.append('START')
+    return bi
+
+def following_bipos(tags, idx):
+    bi = []
+    if idx < len(tags)-1:
+        bi.append(tags[idx + 1])
+    else:
+        bi.append('END')
+
+    if idx < len(tags) - 2:
+        bi.append(tags[idx + 2])
+    else:
+        bi.append('START')
+    return bi
+
+def preceded_by_determiner(tags, idx):
+    return False if not idx > 0 else tags[idx-1] == 'DT'
+
+def preceding_punc(
+
+def punctuation_follows():
+    pass
+
+def punctuation_precedes():
+    pass
 
 def enrich_observations(tweets):
-    return [[((tok, len(tok), 'emo' if has_emoji.search(tok) else 'txt'), lbl) for tok, lbl in tw] for tw in tweets]
+    returnable = []
+    for tw in tweets:
+        thistweet = []
+        words = [x for x,y in tw]
+        tagged = nltk.pos_tag(words)
+        tags = [y for x, y in tagged]
+        for i in range(len(tw)):
+            tok, lbl = tw[i]
+            if lbl == 'func':
+                lbl = 'content'
+
+            features = ( tok,
+                    tags[i],
+                    preceded_by_determiner(tags, i),
+                    #preceding_bipos(tags,i), # worse
+                    #following_bipos(tags,i), # worse
+                    len(tok),
+                    'emo' if has_emoji.search(tok) else 'txt',
+                    position_in_tweet(tw,i)
+                    )
+            
+            thistweet.append((features, lbl))
+        returnable.append(thistweet)
+    return returnable
+
+
+    #return [
+            #[((
+                #tok,
+                #len(tok),
+                #'emo' if has_emoji.search(tok) else 'txt',
+                #position_in_tweet(tok, tw)
+                #)
+                #, lbl) for tok, lbl in tw]
+            #for tw in tweets
+            #]
 
 def split_dataset(dataset, testset_percentage):
     cutoff = int(testset_percentage * len(dataset) / 100)

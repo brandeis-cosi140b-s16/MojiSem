@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+import sys
+import codecs
+#sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+
 from hmm_prep import *
 tweets = xml_to_tagged_tweets('/Users/orion/Google Drive/2016Spring/NLA4ML/gold/1.xml')
 tweets += xml_to_tagged_tweets('/Users/orion/Google Drive/2016Spring/NLA4ML/gold/2.xml')
@@ -7,10 +12,20 @@ tweets += xml_to_tagged_tweets('/Users/orion/Google Drive/2016Spring/NLA4ML/gold
 
 trainset, testset = split_dataset(tweets, 10)
 
-for tweet in testset:
-    for tok in tweet:
-        obs, lbl = tok
-        print('\t'.join([lbl,'\t'.join(str(o) for o in obs)]))
+for klass in ('train','test'):
+    fh = codecs.open('crf_'+klass+'.txt','w',encoding='utf8')
+    tset = locals()[ klass+'set' ]
+    for tweet in tset:
+    #for tweet in trainset:
+        fh.write("START\tSTART\n")
+        for tok in tweet:
+            obs, lbl = tok
+            line = u'\t'.join([lbl,u'\t'.join(unicode(o) for o in obs)]) #.encode('utf-8')
+            fh.write(line+'\n')
+            #print(line)
+        fh.write("END\tEND\n")
+    fh.close()
+
 
 
 #from nltk.tag.hmm import HiddenMarkovModelTrainer
