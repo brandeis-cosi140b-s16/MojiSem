@@ -76,9 +76,18 @@ def tag_text(raw, tags):
             res.append(tup)
 
         elif raw[i] in word_break:
-            tup = (raw[i], 'punc')
-            res.append(tup)
-            i = i + 1
+            if raw[i] in ['@','#']:
+                tup = (raw[i], '@#')
+                res.append(tup)
+                i = i + 1
+            elif raw[i] in [' ', '\n']:
+                tup = (raw[i], 'space')
+                res.append(tup)
+                i = i + 1
+            else:
+                tup = (raw[i], 'punc')
+                res.append(tup)
+                i = i + 1
 
 
         else:
@@ -98,14 +107,10 @@ def tag_text(raw, tags):
 def attach_punc(taggedText):
     for i in range(len(taggedText)):
         tup = taggedText[i]
-        if tup[1] == 'punc':
-            if tup[0] in ['#','@']:
-                taggedText[i+1] = (tup[0] + taggedText[i+1][0], taggedText[i+1][1])
+        if tup[1] == '@#':
+            taggedText[i+1] = (tup[0] + taggedText[i+1][0], taggedText[i+1][1])
 
-            if tup[0] in ['!', '.', '?', ':', ';', ',']:
-                taggedText[i-1] = (taggedText[i-1][0] + tup[0], taggedText[i-1][1])
-
-    taggedText = [tup for tup in taggedText if tup[1] != 'punc']
+    taggedText = [tup for tup in taggedText if tup[1] not in ['@#','space']]
     return taggedText
 
 def split_to_tweets(taggedText):
