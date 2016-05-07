@@ -10,10 +10,12 @@ The method "xml_to_tagged_tweets" takes an xml from the mojiSem gold standard an
 """
 
 import re
+import nltk
 from xml.etree.ElementTree import ElementTree
 
 def process_gold(path):
-    f = nltk.data.find(path)
+    #f = nltk.data.find(path)
+    f = open(path)
     xml = ElementTree().parse(f)
     tags = []
 
@@ -123,15 +125,23 @@ def split_to_tweets(taggedText):
 
     return tagged_tweets
 
+has_emoji = re.compile(u'['
+    u'\U0001F300-\U0001F64F'
+    u'\U0001F680-\U0001F6FF'
+    u'\u2600-\u26FF\u2700-\u27BF]+',
+re.UNICODE)
+
+def enrich_observations(tweets):
+    return [[((tok, len(tok), 'emo' if has_emoji.search(tok) else 'txt'), lbl) for tok, lbl in tw] for tw in tweets]
+
+def split_dataset(dataset, testset_percentage):
+    cutoff = int(testset_percentage * len(dataset) / 100)
+    return dataset[cutoff:], dataset[:cutoff]
+
 def xml_to_tagged_tweets(path):
     raw, tags = process_gold(path)
     taggedText = tag_text(raw, tags)
     taggedText = attach_punc(taggedText)
     tweets = split_to_tweets(taggedText)
+    tweets = enrich_observations(tweets)
     return tweets
-    
-    
-    
-    
-
-        
