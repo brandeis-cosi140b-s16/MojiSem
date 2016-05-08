@@ -145,6 +145,56 @@ except re.error:
         u'[\u2600-\u26FF\u2700-\u27BF])+',
         re.UNICODE)
 
+#emoji blocks
+emoticons = re.compile(u'\ud83d[\ude00-\ude50]')
+transport = re.compile(u'\ud83d[\ude80-\udec5\udecb-\uded0\udee0-\udee5\udeeb-\udeec\udee9\udef0\udef3]')
+dingbats = re.compile(u'[\u2700-\u27BF]')
+food = re.compile(u'\ud83c[\udf45-\udf7f\udf2d-\udf2f]')
+sports = re.compile(u'\ud83c[\udfbd-\udfd3]')
+animals = re.compile(u'\ud83d[\udc00-\udc3f]')
+clothing = re.compile(u'\ud83d[\udc51-\udc62]')
+hearts = re.compile(u'\ud83d[\udc93-\udc9f]')
+office = re.compile(u'\ud83d[\udcba-\udcdc\udda5-\udddd]')
+clock = re.compile(u'\ud83d[\udd50-\udd67]')
+weather = re.compile(u'[\u2600-\u260D\u2614]|\ud83c[\udf21-\udf2c]')
+hands = re.compile(u'[\u261A-\u261F]|\ud83d[\udc46-\udc50]|\ud83d[\udd8e-\udda3]')
+plants = re.compile(u'\ud83c[\udf30-\udf44]')
+celebration = re.compile(u'\ud83c[\udf80-\udf97]')
+
+def get_emoji_group(emoji):
+    if emoticons.search(emoji):
+        return 'emoticon'
+    elif transport.search(emoji):
+        return 'transport'
+    elif dingbats.search(emoji):
+        return 'dingbat'
+    elif food.search(emoji):
+        return 'food'
+    elif sports.search(emoji):
+        return 'sports'
+    elif animals.search(emoji):
+        return 'animal'
+    elif clothing.search(emoji):
+        return 'clothing'
+    elif hearts.search(emoji):
+        return 'heart'
+    elif office.search(emoji):
+        return 'office'
+    elif clock.search(emoji):
+        return 'clock'
+    elif weather.search(emoji):
+        return 'weather'
+    elif hands.search(emoji):
+        return 'hand'
+    elif plants.search(emoji):
+        return 'plant'
+    elif celebration.search(emoji):
+        return 'celebration'
+    else:
+        return 'other'
+    
+
+
 def beg_or_end(tweet, idx):
     if idx == 0:
         return 'BEGIN'
@@ -204,6 +254,7 @@ def enrich_observations(tweets):
             pre = preceding_bipos(tags,i)
             post = following_bipos(tags,i)
             the_type = 'emo' if has_emoji.search(tok) else 'txt'
+            emoji_group = get_emoji_group(tok) if has_emoji.search(tok) else 'txt'
             features = ( tok,
                     tags[i],
                     preceded_by_determiner(tags, i),
@@ -213,6 +264,7 @@ def enrich_observations(tweets):
                     #'\t'.join(following_bipos(tags,i)), # worse
                     len(tok),
                     the_type,
+                    emoji_group,
                     position_in_tweet(tw,i)
                     #beg_or_end(tw,i)
                     )
