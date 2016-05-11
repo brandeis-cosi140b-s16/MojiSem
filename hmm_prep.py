@@ -203,7 +203,7 @@ def beg_or_end(tweet, idx):
     return 'MID'
 
 def position_in_tweet(tweet, idx):
-    return idx / float(len(tweet))
+    return int(idx / float(len(tweet)) * 10)
 
 def preceding_bipos(tags, idx):
     bi = []
