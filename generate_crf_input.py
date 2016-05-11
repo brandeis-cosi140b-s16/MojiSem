@@ -4,11 +4,12 @@ import codecs
 #sys.stdout = codecs.getwriter('utf8')(sys.stdout)
 
 from hmm_prep import *
-tweets = xml_to_tagged_tweets('/Users/orion/Google Drive/2016Spring/NLA4ML/gold/1.xml')
-tweets += xml_to_tagged_tweets('/Users/orion/Google Drive/2016Spring/NLA4ML/gold/2.xml')
-tweets += xml_to_tagged_tweets('/Users/orion/Google Drive/2016Spring/NLA4ML/gold/3.xml')
-tweets += xml_to_tagged_tweets('/Users/orion/Google Drive/2016Spring/NLA4ML/gold/4.xml')
-tweets += xml_to_tagged_tweets('/Users/orion/Google Drive/2016Spring/NLA4ML/gold/5.xml')
+tweets = xml_to_tagged_tweets('/Users/orion/Google Drive/2016Spring/NLA4ML/gold/MojiSemGold1.xml')
+tweets += xml_to_tagged_tweets('/Users/orion/Google Drive/2016Spring/NLA4ML/gold/MojiSemGold2.xml')
+tweets += xml_to_tagged_tweets('/Users/orion/Google Drive/2016Spring/NLA4ML/gold/MojiSemGold3.xml')
+tweets += xml_to_tagged_tweets('/Users/orion/Google Drive/2016Spring/NLA4ML/gold/MojiSemGold4.xml')
+tweets += xml_to_tagged_tweets('/Users/orion/Google Drive/2016Spring/NLA4ML/gold/MojiSemGold5.xml')
+tweets += xml_to_tagged_tweets('/Users/orion/Google Drive/2016Spring/NLA4ML/gold/MojiSemGold6.xml')
 
 trainset, testset = split_dataset(tweets, 10)
 
