@@ -13,11 +13,11 @@ MojiSem.model: crf_train.txt crf_test.txt
 eval: crf_train.txt crf_test.txt
 	crfsuite learn -e2 -aap crf_train.txt crf_test.txt
 
-compare: crf_train.txt crf_test.txt
+compare: MojiSem.model
 	crfsuite tag -r -m MojiSem.model crf_test.txt > crf_tagged.txt
 	paste crf_tagged.txt crf_test.txt
 
 clean:
-	rm crf_train.txt crf_test.txt
+	rm crf_train.txt crf_test.txt MojiSem.model
 
 
