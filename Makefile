@@ -17,6 +17,9 @@ compare: MojiSem.model
 	crfsuite tag -r -m MojiSem.model crf_test.txt > crf_tagged.txt
 	paste crf_tagged.txt crf_test.txt
 
+mistagged_words:
+	paste crf_tagged.txt crf_test.txt | grep word | egrep 'mm|content'
+
 clean:
 	rm crf_train.txt crf_test.txt MojiSem.model
 

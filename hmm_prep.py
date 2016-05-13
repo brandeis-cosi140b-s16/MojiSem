@@ -5,7 +5,8 @@ Created on Tue Apr 19 15:24:36 2016
 
 NLTK HMM trainer takes sequences of <observation, state> tuples.
 
-The method "xml_to_tagged_tweets" takes an xml from the mojiSem gold standard and generates a list of tagged tweets, ready for HMM training/testing
+The method "xml_to_tagged_tweets" takes an xml from the mojiSem gold standard
+and generates a list of tagged tweets, ready for HMM training/testing
 
 """
 
@@ -26,7 +27,8 @@ def process_gold(path):
             n1 = int(s[0])
             n2 = int(s[1])
             text = tag.get('text')
-            a = (n1,n2,'mm',text)
+            ttype = tag.get('type')
+            a = (n1,n2,'mm',text,ttype)
             tags.append(a)
 
     for tag in xml[1]:
@@ -36,7 +38,8 @@ def process_gold(path):
             n1 = int(s[0])
             n2 = int(s[1])
             text = tag.get('text')
-            a = (n1,n2,'content',text)
+            ttype = tag.get('type')
+            a = (n1,n2,'content',text,ttype)
             tags.append(a)
 
     for tag in xml[1]:
@@ -46,7 +49,8 @@ def process_gold(path):
             n1 = int(s[0])
             n2 = int(s[1])
             text = tag.get('text')
-            a = (n1,n2,'func',text)
+            ttype = tag.get('type')
+            a = (n1,n2,'func',text,ttype)
             tags.append(a)
 
     tags = sorted(tags)
@@ -68,9 +72,10 @@ def tag_text(raw, tags):
         if j >= len(tags):
             j = 0
         if i == tags[j][0]:
+            ttype = tags[j][4]
             text = tags[j][3]
             tag = tags[j][2]
-            tup = (text,tag)
+            tup = (text,tag+"_"+ttype)
             i = tags[j][1]
             j = j+1
             res.append(tup)

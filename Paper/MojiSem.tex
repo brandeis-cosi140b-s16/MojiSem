@@ -16,6 +16,7 @@
   {\tt \{nnaaman,hprovenza,obm\}@brandeis.edu}\\}
 
 \date{}
+\def\st{$\bullet$}
 
 \begin{document}
 \maketitle
@@ -42,12 +43,90 @@ Recent work \cite{MillerEmoji2016} has explored the
 
 \section{Annotation task}
 
+\subsection{Guidelines}
+
+Although recognizing the presence of emoji characters is trivial and unambiguous, the linguistic distinctions
+we sought to annotate were ambiguous and seemed prone to disagreement. Therefore in the guidelines we
+structured the annotation process in such a way as to minimize cognitive load and lead the annotators to
+intuitive and natural decisions. Our task was motivated partially by the observation that emoji are used
+in contexts that make them graphical replacements that map to the existing lexicon, and are therefore
+straightforward to interpret. The guidelines build on this observation and dictate a process that aims
+to take advantage of such uses. The process was a flow that presented annotators with a few simple questions
+at each step, to determine whether to assign a label or to move on to the next step.
+
+Our guidelines gave a cursory background about emoji and their uses in social media, assuming no particular
+familiarity with the range of creative uses of emoji. In hindsight we realized that we assumed that the
+annotators would have a fair degree of familiarity with Twitter. The short-message social
+platform has many distinctive cultural and communicative codes of its own, not to mention subcultures, and
+continuously evolving trends combined with a long memory. As two of the authors are active and engaged
+users of Twitter, we unfortunately took it for granted that our annotators would be able to decipher emoji
+in contexts that required knowledge of InterNet language and Twitter norms.
+
+The task included:
+\begin{tabular}{l l}
+  \st & Identifying each emoji in the tweet \\
+  \st & Deciding whether consecutive emoji should be considered separately or as a group\\
+  \st & Choosing the right tag for the emoji (or sequence)\\
+  \st & Providing a translation or interpretation for each tagged span.
+\end{tabular}
+
+Eliciting an interpretation serves two main goals. First, as a coercive prompt for the user to bias them
+toward a linguistic interpretation. A replaceable phrase that fits with the grammar of the sentence is a
+different proposition than a marker that amounts to a standalone utterance such as ``I am laughing'' or ``I am sad''.
+Secondly, one of the eventual applications of annotated corpus may be emoji-sense disambiguation (ESD), and mapping
+to a lexicalized expression would be useful grounding for future ESD tasks. The text field was very helpful
+during the adjudication process, clarifying the annotators' judgments and understanding of the task (when
+done correctly).
+
+For each tweet, annotators were asked to do a first read without annotating anything, to get a sense of the
+general message of the tweet and to think about the relationship between the emoji and the text. After the
+first reading, they are asked to determine whether the emoji is serving as punctuation or a function word;
+then if it is a content word; and if it is neither of those, then to examine it as a multimodal emoji.
+A key test, in our opinion, was asking annotators to simulate reading the message of the tweet aloud to
+another person.  If a listeners comprension of the core message seemed to require a word or phrase to be spoken
+in place of an emoji, then that would be a compelling sign that it should be tagged as function or content.
+
+Multimodal was the category assigned to uses that failed the first two tests. We provided
+some guidance for deciding between `topic', `attitude' or `gesture' as sub-types of the multimodal category.
+During adjudication it became obvious that we left this part too open to interpretation. We encountered many
+cases where we had trouble deciding which of two disagreeing annotators was `right' about choosing one type
+over another. A clearer typology of multimodal emojis, and, if possible, a more deterministic procedure for
+labeling emoji with these subtypes, are the major desiderata for any future iteration of this project.
+
+\subsubsection{Later amendments to the guidelines}
+
+After the first batch of annotation work, in response to concerns and suggestions of our annotators, we made
+three major changes to the guidelines:
+
+\st Added he option of tagging a tweet as ``out of scope'', since some uses did not fit in our task description. One
+major example was an entire movie plot retold as a sequence of emoji characters. This is out of scope because
+here the emoji do not appear in a context that puts them in relation to other text, which is the phenomenon
+we sought to examine.
+
+\st Added co-reference tagging for topic-marker emoji that had overt co-referring words in the tweet. These are
+the only cases where we tagged non-emoji character spans.
+
+\st Added the option of tagging sequences of emoji that were split up by non-emoji text but should still be
+treated as one unit. This wasn't used at all in the following annotation batches, because the tweet format that
+made it necessary did not appear in the tweet sets for those batches.
+
+
 \subsection{Data collection and filtering}
 Tweets were pulled from the public Twitter streaming API using the \texttt{tweepy} library. The collected tweets were automatically filtered to include only tweets with characters from the Emoji Unicode ranges (i.e. generally U+1FXXX, U+26XX--U+27BF); only tweets labeled as being in English; to exclude tweets with embedded images or links (more below).
 
 Tweets with links and images were excluded from consideration to reduce time investment and cognitive load for annotators. Our early explorations found frequent cases where emoji were tweeted to show a reaction to an attached image or linked page (especially a blog post or news story) and that these tended toward ambiguous interpretations akin to those found by Miller et al. A given tweet's U+1F62D `loudly crying face' might be showing true sympathy, or sarcastically saying ``cry my a river.'' The amount of annotator effort necessary for an annotator to determine this in context would require an understanding of the tweeter's past opinions and their stance on the parties involved in the story they linked. These are very interesting questions for future research, but we determined them to be out of scope for the present research, which focuses on high-level, coarse-grained distinctions.
 
 Redundant/duplicate tweets were filtered by comparing tweet texts after removal of hashtags and @mentions; this left only a small number of cloned duplicates.
+
+\section{Machine-learning task}
+
+\subsection{Data sparseness}
+
+\subsection{Feature engineering}
+
+We used \cite{CRFSuite} and, after experimenting with the different algorithms available,
+chose Averaged Perceptron \cite{AvePerceptron} for its superior results.
+
 
 \bibliographystyle{acl}
 \bibliography{MojiSem}
