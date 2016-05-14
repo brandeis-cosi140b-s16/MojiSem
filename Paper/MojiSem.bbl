@@ -1,5 +1,14 @@
 \begin{thebibliography}{}
 
+\bibitem[\protect\citename{Lafferty \bgroup et al.\egroup }2001]{CRFcite}
+John~D. Lafferty, Andrew McCallum, and Fernando C.~N. Pereira.
+\newblock 2001.
+\newblock Conditional random fields: Probabilistic models for segmenting and
+  labeling sequence data.
+\newblock In {\em Proceedings of the Eighteenth International Conference on
+  Machine Learning}, ICML '01, pages 282--289, San Francisco, CA, USA. Morgan
+  Kaufmann Publishers Inc.
+
 \bibitem[\protect\citename{Miller \bgroup et al.\egroup }2016]{MillerEmoji2016}
 Hannah Miller, Jacob Thebault-Spieker, Shuo Chang, Isaac Johnson, Loren
   Terveen, and Brent Hecht.

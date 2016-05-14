@@ -131,7 +131,7 @@ This exposed some differences of opinion, with one annotator tagging a pair of c
 
 The assignment of category labels was a bit trickier, especially given the subcategory labels. See table \ref{tab:IAA}.
 
-\begin{table}[htbp]
+\begin{table*}[t]
   \centering
   \begin{tabular}{@{} |lccccc| @{}}
     \hline
@@ -149,25 +149,26 @@ The assignment of category labels was a bit trickier, especially given the subca
   \end{tabular}
   \caption{Fleiss's $\kappa$ scores and other annotation numbers}
   \label{tab:IAA}
-\end{table}
+\end{table*}
 
 \section{Machine-learning task}
 
-Our experiment was to study 
+Our experiment was to train a sequence tagger to assign the correct linguistic-function label to an emoji character. Our annotators had
+assigned labels and subtypes, but 
 
 \subsection{Data sparseness}
 
 For reasons described above, we had a small and arbitrary sample of emoji usage available to study. Although we tagged 775 spans in 567 tweets, we only saw 300 distinct emoji, and 135 of them occurred only once. This drove us away from
-We felt that needed more complex features than we could get with an HMM, and we needed our experiments to 
-control for the contribution of the individual character vs. the other features. So we went with Conditional Random Fields \cite{CRFcite}.
 
+We felt that needed more complex features than we could get with an HMM, and we needed to treat features independently.
+So we went with Conditional Random Fields \cite{CRFcite}.
 
 \subsection{Feature engineering}
 
 We used CRFSuite \cite{CRFSuite} and, after experimenting with the different algorithms available,
-chose Averaged Perceptron \cite{AvePerceptron} for its superior results. See table \ref{tab:PRF1}
+found that the averaged perceptron algorithm \cite{Collins:2002} gave the best results. See table \ref{tab:PRF1}
 
-\begin{table}[htp]
+\begin{table*}[htp]
 \caption{Performance of feature iterations}
 \begin{center}
 \begin{tabular}{|l| c c c c c c|}
@@ -186,7 +187,7 @@ emo?+POS+emo\_class & 0.9914 & 0.8421 & 0.6000 & 0.4000 & 0.4800 & 0.8855\\
 \end{tabular}
 \end{center}
 \label{tab:PRF1}
-\end{table}%
+\end{table*}
 
 A standard HMM would have treated observations of the 135 nonce emoji as entirely unique and incomparable. The best thing we could likely have done with an HMM is shown on the final line of table \ref{tab:PRF1}: just using a tuple of \texttt{< is\_emoji, POS, emoji\_class >}, ignoring the individual character, yields performance that is competitive with the early iterations of the CRF feature set.
 
