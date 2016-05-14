@@ -5,7 +5,7 @@ chars_by_count.txt: crf_train.txt crf_test.txt
 	perl -C -pe 's/[[:ascii:]]//g;s/([^\p{IsLatin}])/\1\n/g;' crf_train.txt crf_test.txt | sort | uniq -c | sort -rn >  $@
 
 nonce.txt: chars_by_count.txt
-	grep '^ *1 ' chars_by_count.txt | awk '{print $2}' > $@
+	grep '^ *1 ' chars_by_count.txt | awk '{print $$2}' > $@
 
 MojiSem.model: crf_train.txt crf_test.txt
 	crfsuite learn -aap -m $@ crf_train.txt
@@ -19,6 +19,10 @@ compare: MojiSem.model
 
 mistagged_words:
 	paste crf_tagged.txt crf_test.txt | grep word | egrep 'mm|content'
+
+# don't necessarily use this: it expects labels in format 'label_subtype'
+#emoji_polysemy.txt:
+	#egrep -h '(mm_|content_)' crf_train.txt crf_test.txt |  awk '{print $$1"\t"$$2}' | sort -k 2 > $@
 
 clean:
 	rm crf_train.txt crf_test.txt MojiSem.model

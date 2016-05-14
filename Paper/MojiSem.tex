@@ -63,12 +63,18 @@ users of Twitter, we unfortunately took it for granted that our annotators would
 in contexts that required knowledge of InterNet language and Twitter norms.
 
 The task included:
-\begin{tabular}{l l}
-  \st & Identifying each emoji in the tweet \\
-  \st & Deciding whether consecutive emoji should be considered separately or as a group\\
-  \st & Choosing the right tag for the emoji (or sequence)\\
-  \st & Providing a translation or interpretation for each tagged span.
-\end{tabular}
+
+%\begin{itemize}
+%\item 
+%\end{itemize}
+
+
+\begin{itemize}
+  \item  Identifying each emoji in the tweet 
+  \item  Deciding whether multiple contiguous emoji should be considered separately or as a group
+  \item  Choosing the right tag for the emoji (or sequence)
+  \item  Providing a translation or interpretation for each tagged span.
+\end{itemize}
 
 Eliciting an interpretation serves two main goals. First, as a coercive prompt for the user to bias them
 toward a linguistic interpretation. A replaceable phrase that fits with the grammar of the sentence is a
@@ -97,35 +103,117 @@ labeling emoji with these subtypes, are the major desiderata for any future iter
 
 After the first batch of annotation work, in response to concerns and suggestions of our annotators, we made
 three major changes to the guidelines:
-
-\st Added he option of tagging a tweet as ``out of scope'', since some uses did not fit in our task description. One
+\begin{itemize}
+  \item Added the option of tagging a tweet as ``out of scope,'' since some uses did not fit in our task description. One
 major example was an entire movie plot retold as a sequence of emoji characters. This is out of scope because
 here the emoji do not appear in a context that puts them in relation to other text, which is the phenomenon
 we sought to examine.
 
-\st Added co-reference tagging for topic-marker emoji that had overt co-referring words in the tweet. These are
+\item Added co-reference tagging for topic-marker emoji that had overt co-referring words in the tweet. These are
 the only cases where we tagged non-emoji character spans.
 
-\st Added the option of tagging sequences of emoji that were split up by non-emoji text but should still be
+\item Added the option of tagging sequences of emoji that were split up by non-emoji text but should still be
 treated as one unit. This wasn't used at all in the following annotation batches, because the tweet format that
 made it necessary did not appear in the tweet sets for those batches.
-
+\end{itemize}
 
 \subsection{Data collection and filtering}
-Tweets were pulled from the public Twitter streaming API using the \texttt{tweepy} library. The collected tweets were automatically filtered to include only tweets with characters from the Emoji Unicode ranges (i.e. generally U+1FXXX, U+26XX--U+27BF); only tweets labeled as being in English; to exclude tweets with embedded images or links (more below).
+Tweets were pulled from the public Twitter streaming API using the \texttt{tweepy} library. The collected tweets were automatically filtered to include only tweets with characters from the Emoji Unicode ranges (i.e. generally \texttt{U+1FXXX}, \texttt{U+26XX}--\texttt{U+27BF}); only tweets labeled as being in English; to exclude tweets with embedded images or links (more below).
 
-Tweets with links and images were excluded from consideration to reduce time investment and cognitive load for annotators. Our early explorations found frequent cases where emoji were tweeted to show a reaction to an attached image or linked page (especially a blog post or news story) and that these tended toward ambiguous interpretations akin to those found by Miller et al. A given tweet's U+1F62D `loudly crying face' might be showing true sympathy, or sarcastically saying ``cry my a river.'' The amount of annotator effort necessary for an annotator to determine this in context would require an understanding of the tweeter's past opinions and their stance on the parties involved in the story they linked. These are very interesting questions for future research, but we determined them to be out of scope for the present research, which focuses on high-level, coarse-grained distinctions.
+Tweets with links and images were excluded from consideration to reduce time investment and cognitive load for annotators. Our early explorations found frequent cases where emoji were tweeted to show a reaction to an attached image or linked page (especially a blog post or news story) and that these tended toward ambiguous interpretations akin to those found by Miller et al. A given tweet's \texttt{U+1F62D `loudly crying face'} might be showing true sympathy, or sarcastically saying ``cry my a river.'' The amount of annotator effort necessary for an annotator to determine this in context would require an understanding of the tweeter's past opinions and their stance on the parties involved in the story they linked. These are very interesting questions for future research, but we determined them to be out of scope for the present research, which focuses on high-level, coarse-grained distinctions.
 
 Redundant/duplicate tweets were filtered by comparing tweet texts after removal of hashtags and @mentions; this left only a small number of cloned duplicates.
 
+\subsection{Inter-annotator agreement}
+
+We anticipated strong agreement on the marking of emoji spans. But annotators were encouraged to group multiple emoji in a single span if they were a semantic/functional unit.
+This exposed some differences of opinion, with one annotator tagging a pair of characters together, another separately. So the overall Krippendorff $\alpha$ for annotations was around 0.9. 
+
+The assignment of category labels was a bit trickier, especially given the subcategory labels. See table \ref{tab:IAA}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{@{} |lccccc| @{}}
+    \hline
+    Dataset & \# taters & span rem & total & mm & content \\
+    \hline
+    Week 1     & 4 & 78 & 0.2071  & 0.4251  & 0.1311  \\
+    Week 2     & 4 & 49 & 0.8743  & 0.7158  & 0.8531  \\
+    Week 3A    & 2 & 11 & 0.9096  & 0.4616  & 0.792  \\
+    Week 3B    & 2 & 6  & 0.7436  & 0.3905  & 1.0  \\
+    Week 4A    & 2 & 3  & 0.8789  & 0.4838  & 0.7435  \\
+    Week 4B    & 2 & 1  & 0.3954  & 0.5078  & 1.0  \\
+    \hline
+    Total/mean & 4 & 150 & 0.6681 & 0.4974  & 0.7533  \\
+    \hline
+  \end{tabular}
+  \caption{Fleiss's $\kappa$ scores and other annotation numbers}
+  \label{tab:IAA}
+\end{table}
+
 \section{Machine-learning task}
+
+Our experiment was to study 
 
 \subsection{Data sparseness}
 
+For reasons described above, we had a small and arbitrary sample of emoji usage available to study. Although we tagged 775 spans in 567 tweets, we only saw 300 distinct emoji, and 135 of them occurred only once. This drove us away from
+We felt that needed more complex features than we could get with an HMM, and we needed our experiments to 
+control for the contribution of the individual character vs. the other features. So we went with Conditional Random Fields \cite{CRFcite}.
+
+
 \subsection{Feature engineering}
 
-We used \cite{CRFSuite} and, after experimenting with the different algorithms available,
-chose Averaged Perceptron \cite{AvePerceptron} for its superior results.
+We used CRFSuite \cite{CRFSuite} and, after experimenting with the different algorithms available,
+chose Averaged Perceptron \cite{AvePerceptron} for its superior results. See table \ref{tab:PRF1}
+
+\begin{table}[htp]
+\caption{Performance of feature iterations}
+\begin{center}
+\begin{tabular}{|l| c c c c c c|}
+\hline
+feature                 & F1 word   & F1 mm  & P cont & R cont   & F1 cont & Macro-avg F1 \\\hline
+character               & 0.9721    & 0.7481 & 0.3571 & 0.3333   & 0.3448  & 0.8441\\
+ prev +emo?         & 0.9914    & 0.8649 & 0.4286 & 0.4000   & 0.4000  & 0.8783\\
+ prev +POS              & 0.9914    & 0.8784 & 0.5000 & 0.4667   & 0.4828  & 0.8921\\
+ prev +position         & 0.9914    & 0.8844 & 0.4667 & 0.4667   & 0.4667  & 0.9028\\
+ prev +contexty         & 0.9914    & 0.8831 & 0.6250 & 0.3333   & 0.4348  & 0.8848\\
+prev +emo\_class (best?)& 0.9914    & \textbf{0.8933} & \textbf{0.7273} & 0.5333   & 0.6154  & \textbf{0.9168}\\
+best - character        & 0.9906    & 0.8514 & 0.6429 & \textbf{0.6000}   & 0.6207  & 0.9090\\
+best - contexty         & 0.9922    & 0.8750 & 0.4706 & 0.5333   & 0.5000  & 0.8945\\
+emo?+POS+emo\_class & 0.9914 & 0.8421 & 0.6000 & 0.4000 & 0.4800 & 0.8855\\
+\hline
+\end{tabular}
+\end{center}
+\label{tab:PRF1}
+\end{table}%
+
+A standard HMM would have treated observations of the 135 nonce emoji as entirely unique and incomparable. The best thing we could likely have done with an HMM is shown on the final line of table \ref{tab:PRF1}: just using a tuple of \texttt{< is\_emoji, POS, emoji\_class >}, ignoring the individual character, yields performance that is competitive with the early iterations of the CRF feature set.
+
+
+\section{Future directions}
+
+We clearly need more data. 89 examples of content and functional uses of emoji is not enough to reliably model the behavior of these characters. Since our
+classification is mostly binary. More annotation may yield much richer models of the variety, and will help get a better handle on the range of emoji polysemy.
+Clustering of contents based on observed features may help induce more empirically valid subtypes than the ones defined by our specification.
+
+This project was motivated by a curiosity, and a hypothesis, about emoji semantics. Anglophone Twitter users use emoji in their tweets
+for a wide range of purposes, and a given emoji character means different things in different contexts. It seems inevitable that emoji will
+become subject to lexicographical description. Modern lexicography has evolved from millennia of attention to words and their combinations.
+Every emoji linguist notes the fascinating range of pragmatic and multi-modal effects that emoji can have in electronic communication. If
+these effects are to be given lexicographical treatment and categorization, they must also be organized into categories that are not part of
+the typical range of classes used to talk about words.
+
+
+
+We have mentioned the notion of emoji-sense disambiguation (ESD). ESD would require an empirical inventory of emoji senses, presumably
+from an empirical lexicon of this sort. 
+
+Even our small sample has shown a number of characters that are genuinely used both as content words
+and as topical or gestural cues. Sometimes emoji of the ``Earth globe'' (\texttt{U+1F30D}--\texttt{U+1F30F}) are used to mean `world', 
+and sometimes they simply decorate a tweet that is expressing an environmental message. Sometimes these three globes---one showing Earth centered
+on Europe/Africa, one showing Earth centered on the Americas, and one centered on Asia/Australia---are used to denote those specific regions, 
+or sometimes they are concatenated, either for emphasis (`the whole entire world') or to indicate the passing of time. There are a number of flower emoji, and sometimes they are used to decorate a message about flowers themselves, and sometimes they add sentiment to a message---and, just as in culture away from keyboards, a rose \texttt{U+1F339} conveys a different sentiment than a sunflower \texttt{U+1F33B}.
 
 
 \bibliographystyle{acl}

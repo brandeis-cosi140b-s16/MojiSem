@@ -75,7 +75,8 @@ def tag_text(raw, tags):
             ttype = tags[j][4]
             text = tags[j][3]
             tag = tags[j][2]
-            tup = (text,tag+"_"+ttype)
+            #tup = (text,tag+"_"+ttype) # for subtypes
+            tup = (text,tag)            # for coarse types
             i = tags[j][1]
             j = j+1
             res.append(tup)
@@ -260,18 +261,26 @@ def enrich_observations(tweets):
             post = following_bipos(tags,i)
             the_type = 'emo' if has_emoji.search(tok) else 'txt'
             emoji_group = get_emoji_group(tok) if has_emoji.search(tok) else 'txt'
-            features = ( tok,
-                    tags[i],
+            features = (  tok,
+                    the_type,# is_emo?
+                    tags[i], # POS
+
+
+                    # position
+                    position_in_tweet(tw,i),
+                    beg_or_end(tw,i),
+                    len(tok),
+
+                    # contexty 
                     preceded_by_determiner(tags, i),
                     pre[1]+"|"+the_type,
                     post[0]+"|"+the_type,
-                    #'\t'.join(preceding_bipos(tags,i)), # worse
-                    #'\t'.join(following_bipos(tags,i)), # worse
-                    len(tok),
-                    the_type,
+
+                    ##'\t'.join(preceding_bipos(tags,i)), # worse
+                    ##'\t'.join(following_bipos(tags,i)), # worse
+
                     emoji_group,
-                    position_in_tweet(tw,i)
-                    #beg_or_end(tw,i)
+
                     )
             thistweet.append((features, lbl))
         returnable.append(thistweet)

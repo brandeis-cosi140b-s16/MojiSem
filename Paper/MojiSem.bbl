@@ -10,6 +10,11 @@ Hannah Miller, Jacob Thebault-Spieker, Shuo Chang, Isaac Johnson, Loren
   Social Media, {ICWSM} 2016, Cologne, Germany, May 17--20, 2016}. Association
   for the Advancement of Artificial Intelligence, May.
 
+\bibitem[\protect\citename{Okazaki}2007]{CRFSuite}
+Naoaki Okazaki.
+\newblock 2007.
+\newblock Crfsuite: a fast implementation of conditional random fields (crfs).
+
 \bibitem[\protect\citename{Schnoebelen}2012]{tylerEmoticons2012}
 Tyler Schnoebelen.
 \newblock 2012.

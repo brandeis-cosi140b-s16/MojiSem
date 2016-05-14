@@ -3,44 +3,46 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: MojiSem.aux
 The style file: acl.bst
 Database file #1: MojiSem.bib
-You've used 2 entries,
+Warning--I didn't find a database entry for "AvePerceptron"
+You've used 3 entries,
             2490 wiz_defined-function locations,
-            567 strings with 5098 characters,
-and the built_in function-call counts, 1016 in all, are:
-= -- 106
-> -- 40
+            574 strings with 5225 characters,
+and the built_in function-call counts, 1282 in all, are:
+= -- 133
+> -- 47
 < -- 2
-+ -- 14
-- -- 14
-* -- 71
-:= -- 165
-add.period$ -- 10
-call.type$ -- 2
-change.case$ -- 15
-chr.to.int$ -- 2
-cite$ -- 2
-duplicate$ -- 46
-empty$ -- 78
-format.name$ -- 16
-if$ -- 220
++ -- 16
+- -- 16
+* -- 84
+:= -- 207
+add.period$ -- 13
+call.type$ -- 3
+change.case$ -- 20
+chr.to.int$ -- 3
+cite$ -- 3
+duplicate$ -- 57
+empty$ -- 104
+format.name$ -- 19
+if$ -- 277
 int.to.chr$ -- 1
 int.to.str$ -- 0
 missing$ -- 2
-newline$ -- 15
-num.names$ -- 6
-pop$ -- 20
+newline$ -- 20
+num.names$ -- 9
+pop$ -- 30
 preamble$ -- 1
-purify$ -- 17
+purify$ -- 23
 quote$ -- 0
-skip$ -- 32
+skip$ -- 44
 stack$ -- 0
-substring$ -- 42
-swap$ -- 15
+substring$ -- 47
+swap$ -- 17
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 16
+type$ -- 24
 warning$ -- 0
-while$ -- 7
-width$ -- 4
-write$ -- 33
+while$ -- 9
+width$ -- 5
+write$ -- 44
+(There was 1 warning)
