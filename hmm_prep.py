@@ -75,8 +75,8 @@ def tag_text(raw, tags):
             ttype = tags[j][4]
             text = tags[j][3]
             tag = tags[j][2]
-            #tup = (text,tag+"_"+ttype) # for subtypes
-            tup = (text,tag)            # for coarse types
+            tup = (text,tag+"_"+ttype) # for subtypes
+            #tup = (text,tag)            # for coarse types
             i = tags[j][1]
             j = j+1
             res.append(tup)

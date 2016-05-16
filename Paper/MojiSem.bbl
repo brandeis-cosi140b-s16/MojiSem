@@ -1,5 +1,10 @@
 \begin{thebibliography}{}
 
+\bibitem[\protect\citename{Collins}]{Collins:2002}
+Michael Collins.
+\newblock Discriminative training methods for {Hidden Markov Models}: Theory
+  and experiments with perceptron algorithms.
+
 \bibitem[\protect\citename{Lafferty \bgroup et al.\egroup }2001]{CRFcite}
 John~D. Lafferty, Andrew McCallum, and Fernando C.~N. Pereira.
 \newblock 2001.
@@ -22,7 +27,8 @@ Hannah Miller, Jacob Thebault-Spieker, Shuo Chang, Isaac Johnson, Loren
 \bibitem[\protect\citename{Okazaki}2007]{CRFSuite}
 Naoaki Okazaki.
 \newblock 2007.
-\newblock Crfsuite: a fast implementation of conditional random fields (crfs).
+\newblock {CRFsuite}: a fast implementation of {Conditional Random Fields
+  (CRFs)}.
 
 \bibitem[\protect\citename{Schnoebelen}2012]{tylerEmoticons2012}
 Tyler Schnoebelen.
