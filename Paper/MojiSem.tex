@@ -49,26 +49,48 @@ in novel contexts.
 
 \section{Annotation task}
 
+\subsection{Features sought}
+
+The high-level labels we defined for emoji uses were:
+
+\begin{itemize}
+	\item \textbf{Function} \texttt{(func)}: characters that stand in for a function word
+	in an utterance; these were given a \texttt{type} attribute with values 
+	\texttt{prep, aux, conj, dt, punc, other}.
+	
+	\item \textbf{Content} \texttt{(cont)}: characters that stand in for lexical words or phrases that are
+	part of the main informative content of the sentence. These have natural parts of speech, which
+	annotators could subtype as: \texttt{noun, verb, adj, adv, other}.
+
+	\item \textbf{Multimodal} \texttt{(mm)}: characters that enrich a complete written text with markers of affect
+	or stance, whether to express an attitude, to echo the topic with an iconic repetition, or to express a gesture
+	that might have accompanied the utterance in face-to-face speech.
+	Subtypes: \texttt{attitude, topic, gesture, other}.
+\end{itemize}
+
+For all three labels, annotators were asked to fill in a free-text attribute \texttt{replacement} with a lexical word or
+phrase that could stand in for any of these. For \texttt{func} and \texttt{cont} these should have been fairly straightforward; for \texttt{mm} there was more room for creative interpretation. 
+
 \subsection{Guidelines}
 
 Although recognizing the presence of emoji characters is trivial and unambiguous, the linguistic distinctions
 we sought to annotate were ambiguous and seemed prone to disagreement. Therefore in the guidelines we
 structured the annotation process in such a way as to minimize cognitive load and lead the annotators to
 intuitive and natural decisions. Our task was motivated partially by the observation that emoji are used
-in contexts that make them graphical replacements that map to the existing lexicon, and are therefore
+in contexts that make them graphical replacements that map to existing lexical words, and are therefore
 straightforward to interpret. The guidelines build on this observation and dictate a process that aims
 to take advantage of such uses. The process was a flow that presented annotators with a few simple questions
 at each step, to determine whether to assign a label or to move on to the next step.
 
 Our guidelines gave a cursory background about emoji and their uses in social media, assuming no particular
-familiarity with the range of creative uses of emoji. In hindsight we realized that we assumed that the
+familiarity with the range of creative uses of emoji. In hindsight we realize that we presumed that
 annotators would have a fair degree of familiarity with Twitter. The short-message social
 platform has many distinctive cultural and communicative codes of its own, not to mention subcultures, and
 continuously evolving trends combined with a long memory. As two of the authors are active and engaged
 users of Twitter, we unfortunately took it for granted that our annotators would be able to decipher emoji
-in contexts that required knowledge of InterNet language and Twitter norms.
+in contexts that required native-speaker fluency in InterNet language and deep familiarity with Twitter norms.
 
-The task comprised:
+The annotation workflow comprised:
 
 \begin{itemize}
   \item  Identifying each emoji in the tweet 
@@ -241,16 +263,9 @@ Results for several iterations of features are given in Table \ref{tab:PRF1}, ge
 
 The ``POS'' feature was a part-of-speech tag obtained by running the tweet text through \texttt{nltk.pos\_tag}, which did apply part-of-speech labels to some emoji characters, and sometimes even correct ones. ``position'' was a set of three positional features: an integer 0--9 indicating a token's position in tenths of the way through the tweet; a three-class \texttt{BEGIN/MID/END} to indicate tokens at the beginning or end of a tweet (slightly different from the 0--9 feature in that multiple tokens may get 0 or 9, but only one token will get \texttt{BEGIN} or \texttt{END}); and the number of characters in the token. The ``contexty'' feature is another set of three features, this time related to context. A boolean \texttt{preceded\_by\_determiner} aimed to catch noun emoji; then two features to record the pairing of the preceding and following part of speech with the present token type (i.e. \texttt{emo/txt}).
 
-A very useful feature is one that currently inheres in the ordering of emoji characters in Unicode blocks. Thus far, emoji have been added in semantically-related groups that tend to be contiguous. So there is a block of smiley faces and other `emoticons'; a block of transport images; blocks of food, sports, animals, clothing; a whole block of hearts of different colors and elaborations; office-related, clocks, weather, hands, plants, and celebratory characters. These provide a very inexpensive proxy to semantics, and the ``emo\_class'' feature yielded a marked improvement in both precision and recall on content words, although the small number of cases in the test data make it hard to be sure of their exact improvement.
+A very useful feature is one that currently inheres in the ordering of emoji characters in Unicode blocks. Thus far, emoji have been added in semantically-related groups that tend to be contiguous. So there is a block of smiley faces and other `emoticons'; a block of transport images; blocks of food, sports, animals, clothing; a whole block of hearts of different colors and elaborations; office-related, clocks, weather, hands, plants, and celebratory characters. These provide a very inexpensive proxy to semantics, and the resulting ``emo\_class'' feature yielded a marked improvement in both precision and recall on content words, although the small number of cases in the test data make it hard to be sure of their true improvement.
 
 We did a few other experiments to explore our features. ``best $-$ character'' checked whether the features we had might be stronger without looking at the characters themselves. This showed that ignoring the character actually improved recall on content words, at the expense of precision. ``best $-$ contexty'' removed the ``contexty'' feature, since it had actually slightly worsened several metrics, but removing it from the final ``(best?)'' feature set also worsened several metrics.
-
-This was why we used CRFs: so we could see how different features, considered independently, might strengthen our labeling. A standard HMM would have treated any observations of the 135 nonce emoji as entirely unique and incomparable. The best thing we could likely have done with an HMM is shown on the final line of Table \ref{tab:PRF1}: just using a tuple of \texttt{< is\_emoji, POS, emoji\_class >}, and ignoring the individual token, yields performance that is competitive with the early iterations of the CRF feature set---not too shabby, but certainly creating a desire for improvement on content words.
-
-\subsection{Full-feature performance}
-
-The results in Table \ref{tab:PRF1} show what we could reliably label with coarse-grained labels given the small size of our data set. But given that we annotated with finer-grained labels as well, it is worth looking at the performance on that task so far; results are shown it Table \ref{tab:subtype}. Our test set had only two of each of the verbal content words --- \texttt{content\_verb} and \texttt{func\_aux} --- and didn't catch either of them, nor label anything else with either label. In fact, the only two \texttt{func\_aux} in our dataset were in the test set, so they never actually got trained on. We got fairly reasonable recall on the \texttt{mm\_topic} and \texttt{mm\_attitude} labels, but given that those are the most frequent labels in the entire data set, it is more relevant that our precision was low.
-
 
 \begin{table*}
 \begin{center}
@@ -268,6 +283,13 @@ mm\_attitude & 11 &  26 &  16 & 0.4231 &  0.6875 &  0.5238\\
 \end{center}
 \label{tab:subtype}
 \end{table*}
+
+This was why we used CRFs: so we could see how different features, considered independently, might strengthen our labeling. A standard HMM would have treated any observations of the 135 nonce emoji as entirely unique and incomparable. The best thing we could likely have done with an HMM is shown on the final line of Table \ref{tab:PRF1}: just using a tuple of \texttt{<is\_emoji, POS, emoji\_class>}, ignoring the individual token, yields performance that is competitive with the early iterations of the CRF feature set---not too shabby, but certainly creating a desire for improvement on content words.
+
+\subsection{Full-feature performance}
+
+The results in Table \ref{tab:PRF1} show what we could reliably label with coarse-grained labels given the small size of our data set. But given that we annotated with finer-grained labels as well, it is worth looking at the performance on that task so far; results are shown it Table 4. Our test set had only two of each of the verbal content words --- \texttt{content\_verb} and \texttt{func\_aux} --- and didn't catch either of them, nor label anything else with either label. In fact, the only two \texttt{func\_aux} in our dataset were in the test set, so they never actually got trained on. We got fairly reasonable recall on the \texttt{mm\_topic} and \texttt{mm\_attitude} labels, but given that those are the most frequent labels in the entire data set, it is more relevant that our precision was low.
+
 
 
 \section{Future directions}
